@@ -15,6 +15,7 @@ LV_FONT_DECLARE(font_styrene_20);
 LV_FONT_DECLARE(font_styrene_16);
 LV_FONT_DECLARE(font_styrene_14);
 LV_FONT_DECLARE(font_mono_32);
+LV_FONT_DECLARE(font_mono_18);
 
 // Layout values computed from the active board's geometry. Populated once
 // in ui_init() and treated as const for the rest of the program. Adding a
@@ -44,6 +45,7 @@ struct Layout {
 
     const lv_font_t* usage_pct_font;
     const lv_font_t* usage_reset_font;
+    const lv_font_t* usage_pill_font;
     const lv_font_t* title_font;
 };
 static Layout L = {};
@@ -75,12 +77,13 @@ static void compute_layout(const BoardCaps& c) {
         L.bt_credit_2_font = &font_styrene_20;
         L.usage_pct_font = &font_styrene_48;
         L.usage_reset_font = &font_styrene_28;
+        L.usage_pill_font = &font_styrene_28;
     } else if (c.height <= 320) {
         L.content_y = 50;
-        L.usage_panel_h = 100;
-        L.usage_panel_gap = 6;
-        L.usage_bar_y = 40;
-        L.usage_reset_y = 68;
+        L.usage_panel_h = 108;
+        L.usage_panel_gap = 14;
+        L.usage_bar_y = 36;
+        L.usage_reset_y = 64;
         L.bt_info_panel_h = 100;
         L.bt_reset_zone_h = 65;
         L.title_font = &font_tiempos_34;
@@ -91,6 +94,7 @@ static void compute_layout(const BoardCaps& c) {
         L.bt_credit_2_font = &font_styrene_14;
         L.usage_pct_font = &font_styrene_28;
         L.usage_reset_font = &font_styrene_20;
+        L.usage_pill_font = &font_styrene_16;
     } else {
         // Compact layout — tuned for 368x448 (AMOLED-1.8).
         L.content_y = 85;
@@ -108,6 +112,7 @@ static void compute_layout(const BoardCaps& c) {
         L.bt_credit_2_font = &font_styrene_14;
         L.usage_pct_font = &font_styrene_48;
         L.usage_reset_font = &font_styrene_28;
+        L.usage_pill_font = &font_styrene_28;
     }
 
     L.content_w = L.scr_w - 2 * L.margin;
@@ -314,7 +319,8 @@ static void make_usage_panel(lv_obj_t* parent, int y, const char* pill_text,
     lv_obj_set_pos(*out_pct, 0, 0);
 
     *out_pill = make_pill(panel, pill_text);
-    lv_obj_align(*out_pill, LV_ALIGN_TOP_RIGHT, 0, -4);
+    lv_obj_set_style_text_font(*out_pill, L.usage_pill_font, 0);
+    lv_obj_align(*out_pill, LV_ALIGN_TOP_RIGHT, 0, 0);
 
     *out_bar = make_bar(panel, 0, L.usage_bar_y, L.content_w - 32, 24);
 
@@ -421,9 +427,9 @@ static void init_usage_screen(lv_obj_t* scr) {
     // Status line — always visible on the usage view. Driven by ui_tick_anim().
     lbl_anim = lv_label_create(usage_container);
     lv_label_set_text(lbl_anim, "");
-    lv_obj_set_style_text_font(lbl_anim, &font_mono_32, 0);
+    lv_obj_set_style_text_font(lbl_anim, &font_mono_18, 0);
     lv_obj_set_style_text_color(lbl_anim, COL_ACCENT, 0);
-    lv_obj_align(lbl_anim, LV_ALIGN_BOTTOM_MID, 0, -15);
+    lv_obj_align(lbl_anim, LV_ALIGN_BOTTOM_MID, 0, -8);
 }
 
 // ======== Public API ========
