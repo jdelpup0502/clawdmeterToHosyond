@@ -447,12 +447,13 @@ void ui_init(void) {
 
     logo_img = lv_image_create(scr);
     lv_image_set_src(logo_img, &logo_dsc);
-    lv_obj_set_pos(logo_img, L.margin, L.title_y - 10);
+    lv_image_set_scale(logo_img, 180);
+    lv_obj_set_pos(logo_img, L.margin, L.title_y - 23);
+    
 
     battery_img = lv_image_create(scr);
     lv_image_set_src(battery_img, &battery_dscs[0]);
-    lv_obj_set_pos(battery_img, L.scr_w - 48 - L.margin, L.title_y);
-
+    lv_obj_set_pos(battery_img, L.scr_w - 48 - L.margin, L.title_y - 8);
 }
 
 void ui_update(const UsageData* data) {
